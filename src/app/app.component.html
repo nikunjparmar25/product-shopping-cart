@@ -1,0 +1,48 @@
+<nav class="navbar">
+  <div class="navbar-brand">
+    <span>Shopping Cart</span>
+  </div>
+
+  <div class="navbar-cart">
+    <button class="cart-button">
+      <i class="bi bi-cart-fill me-1"></i> <span *ngIf="cartItems.length > 0" class="cart-count">{{ cartItems.length }}</span>
+    </button>
+  </div>
+</nav>
+<div class="container mt-4">
+  <div class="row">
+    <!-- Product List Section -->
+    <div class="col-12 col-md-9">
+      <div class="row">
+        <div class="col-12 col-sm-6 col-lg-4 mb-4" *ngFor="let product of products">
+            <item-card [item]="product" (addProduct)="handleAddToCart($event)"></item-card>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shopping Cart Section -->
+    <div class="col-12 col-md-3">
+      <div *ngIf="cartItems.length === 0" class="d-flex align-items-top justify-content-center" style="height: 100%;">
+        <ul class="list-group w-100">
+          <li class="list-group-item text-center py-5">
+            <p class="m-0 fw-semibold fs-5">Your cart is empty.</p>
+          </li>
+        </ul>
+      </div>
+
+      <ul class="list-group" *ngIf="cartItems.length > 0">
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+          *ngFor="let item of cartItems"
+        >
+          {{ item.title }}
+          <span class="badge bg-primary rounded-pill"> {{ item.price | currency: 'USD' :'symbol':'1.2-2' }}</span>
+        </li>
+      </ul>
+
+      <div class="mt-3 fw-bold" *ngIf="cartItems.length > 0">
+        Total: {{ getTotal() | currency: 'USD' :'symbol':'1.2-2' }}
+      </div>
+    </div>
+  </div>
+</div>
